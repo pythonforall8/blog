@@ -1,0 +1,29 @@
+backend:
+  name: github
+  repo: pythonforall8/blog
+  branch: main
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "blogs"
+    label: "Blog Posts"
+    folder: "data/blogs"
+    format: "json"
+    create: true
+    slug: "{{title}}"
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "slug", label: "Slug", widget: "hidden", default: "{{slug}}" }
+      - {
+          name: "author",
+          label: "Author",
+          widget: "select",
+          options: ["Jyoti Sharma", "Samyak Jain"],
+        }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "coverImage", label: "Cover Image", widget: "image" }
+      - { name: "tags", label: "Tags", widget: "list", default: [] }
+      - { name: "description", label: "Description", widget: "text" }
+      - { name: "content", label: "Content", widget: "markdown" }
