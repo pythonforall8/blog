@@ -1,0 +1,92 @@
+import React from 'react';
+import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import { format } from 'date-fns';
+import { Metadata } from 'next';
+import StarryBackground from '@/components/layout/starry';
+import { FooterSection } from '@/components/layout/sections/footer';
+import { ArticleContent } from '@/components/blog/article-content';
+import { AuthorCard } from '@/components/blog/author-card';
+import { ShareButtons } from '@/components/blog/share-buttons';
+import { RelatedPosts } from '@/components/blog/related-posts';
+import { getPostBySlug, getRelatedPosts } from '@/lib/blog';
+
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = getPostBySlug(params.slug);
+  
+  if (!post) {
+    return {
+      title: 'Post Not Found | Python For All Blog',
+    };
+  }
+
+  return {
+    title: `${post.title} | Python For All Blog`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      images: [{ url: post.coverImage }],
+    },
+  };
+}
+
+export default function BlogPost({ params }: Props) {
+  const post = getPostBySlug(params.slug);
+  
+  if (!post) {
+    notFound();
+  }
+
+  const relatedPosts = getRelatedPosts(post, 3);
+  
+  return (
+    <div className="min-h-screen relative">
+      <StarryBackground />
+      <article className="container mx-auto px-4 py-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-8">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
+              <span>{format(new Date(post.date), 'MMMM dd, yyyy')}</span>
+              <span>•</span>
+              <span>{post.readingTime} min read</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
+            <p className="text-xl text-muted-foreground mb-8">{post.excerpt}</p>
+            
+            <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-8">
+              <Image 
+                src={post.coverImage} 
+                alt={post.title}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          </div>
+          
+          <div className="flex gap-8 flex-col lg:flex-row">
+            <div className="lg:w-8/12">
+              <ArticleContent content={post.content} />
+              <div className="mt-8">
+                <ShareButtons title={post.title} slug={post.slug} />
+              </div>
+            </div>
+            
+            <aside className="lg:w-4/12 space-y-8">
+              <AuthorCard author={post.author} />
+              {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+            </aside>
+          </div>
+        </div>
+      </article>
+      <FooterSection />
+    </div>
+  );
+}
