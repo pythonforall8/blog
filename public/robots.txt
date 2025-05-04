@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://pythonforall.com
+
+# Sitemaps
+Sitemap: https://pythonforall.com/sitemap.xml

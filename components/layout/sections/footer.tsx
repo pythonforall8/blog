@@ -1,36 +1,40 @@
-import React from 'react';
-import Link from 'next/link';
+import { Separator } from "@/components/ui/separator";
+import Image from "next/image";
+import Link from "next/link";
 
-export function FooterSection() {
+export const FooterSection = () => {
   return (
-    <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-          <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-            Built with ❤️ using Next.js and Tailwind CSS. All rights reserved.
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <Link 
-            href="/blog"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Blog
-          </Link>
-          <Link 
-            href="/privacy"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Privacy
-          </Link>
-          <Link 
-            href="/terms"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Terms
+    <footer id="footer" className="w-[95%] mx-auto py-4 sm:py-4 ">
+      <div className="p-8 bg-background/60 backdrop-blur-[2px] rounded-2xl">
+        {/* Logo and Title Section */}
+        <div className="flex justify-center items-center">
+          <Link href="#" className="flex items-center font-bold">
+            <Image
+              src="/pfa_logo.ico"
+              alt="PythonForAll Logo"
+              width={36}
+              height={36}
+              className="mr-2"
+            />
+            <h3 className="text-2xl">PythonForAll</h3>
           </Link>
         </div>
+        <Separator className="my-6" />
+        {/* Footer Text and Links */}
+        <section className="flex flex-col md:flex-row justify-between items-center text-sm opacity-60">
+          <div>
+            <h3>&copy; 2025 PythonForAll. All rights reserved.</h3>
+          </div>
+          <div className="flex gap-4 mt-4 md:mt-0">
+            <Link href="/terms" className="hover:underline text-primary">
+              Terms of Service
+            </Link>
+            <Link href="/privacy" className="hover:underline text-primary">
+              Privacy Policy
+            </Link>
+          </div>
+        </section>
       </div>
     </footer>
   );
-}
+};

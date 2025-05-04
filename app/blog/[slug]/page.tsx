@@ -1,15 +1,15 @@
-import React from 'react';
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import { format } from 'date-fns';
-import { Metadata } from 'next';
-import StarryBackground from '@/components/layout/starry';
-import { FooterSection } from '@/components/layout/sections/footer';
-import { ArticleContent } from '@/components/blog/article-content';
-import { AuthorCard } from '@/components/blog/author-card';
-import { ShareButtons } from '@/components/blog/share-buttons';
-import { RelatedPosts } from '@/components/blog/related-posts';
-import { getPostBySlug, getRelatedPosts } from '@/lib/blog';
+import React from "react";
+import { notFound } from "next/navigation";
+import Image from "next/image";
+import { format } from "date-fns";
+import { Metadata } from "next";
+import StarryBackground from "@/components/layout/starry";
+import { FooterSection } from "@/components/layout/sections/footer";
+import { ArticleContent } from "@/components/blog/article-content";
+import { AuthorCard } from "@/components/blog/author-card";
+import { ShareButtons } from "@/components/blog/share-buttons";
+import { RelatedPosts } from "@/components/blog/related-posts";
+import { getPostBySlug, getRelatedPosts } from "@/lib/blog";
 
 type Props = {
   params: {
@@ -17,12 +17,19 @@ type Props = {
   };
 };
 
+type Block = {
+  type: string;
+  value: string;
+  language?: string;
+  level?: number;
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug);
-  
+
   if (!post) {
     return {
-      title: 'Post Not Found | Python For All Blog',
+      title: "Post Not Found | Python For All Blog",
     };
   }
 
@@ -39,13 +46,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function BlogPost({ params }: Props) {
   const post = getPostBySlug(params.slug);
-  
+
   if (!post) {
     notFound();
   }
 
   const relatedPosts = getRelatedPosts(post, 3);
-  
+
   return (
     <div className="min-h-screen relative">
       <StarryBackground />
@@ -53,16 +60,18 @@ export default function BlogPost({ params }: Props) {
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-              <span>{format(new Date(post.date), 'MMMM dd, yyyy')}</span>
+              <span>{format(new Date(post.date), "MMMM dd, yyyy")}</span>
               <span>•</span>
               <span>{post.readingTime} min read</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">{post.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+              {post.title}
+            </h1>
             <p className="text-xl text-muted-foreground mb-8">{post.excerpt}</p>
-            
+
             <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-8">
-              <Image 
-                src={post.coverImage} 
+              <Image
+                src={post.coverImage}
                 alt={post.title}
                 fill
                 className="object-cover"
@@ -70,15 +79,22 @@ export default function BlogPost({ params }: Props) {
               />
             </div>
           </div>
-          
+
           <div className="flex gap-8 flex-col lg:flex-row">
             <div className="lg:w-8/12">
-              <ArticleContent content={post.content} />
+              <ArticleContent
+                content={post.content.map((block) => ({
+                  ...block,
+                  value: Array.isArray(block.value)
+                    ? block.value.join("\n")
+                    : block.value,
+                }))}
+              />
               <div className="mt-8">
                 <ShareButtons title={post.title} slug={post.slug} />
               </div>
             </div>
-            
+
             <aside className="lg:w-4/12 space-y-8">
               <AuthorCard author={post.author} />
               {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
