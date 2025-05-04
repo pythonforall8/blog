@@ -1,10 +1,12 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Author } from '@/types/blog';
+"use client";
+
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Author } from "@/types/blog";
 
 interface AuthorCardProps {
   author: Author;
@@ -36,11 +38,9 @@ export function AuthorCard({ author }: AuthorCardProps) {
               <p className="text-sm text-muted-foreground">{author.title}</p>
             </div>
           </div>
-          
-          <p className="text-sm">
-            {author.bio}
-          </p>
-          
+
+          <p className="text-sm">{author.bio}</p>
+
           <div className="pt-2">
             <Button asChild variant="outline" className="w-full">
               <Link href={`/blog/author/${author.slug}`}>

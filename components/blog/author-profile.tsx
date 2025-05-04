@@ -1,9 +1,11 @@
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Author } from '@/types/blog';
-import { GithubIcon, LinkedInIcon, XIcon } from '@/components/icons';
+"use client";
+
+import React from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Author } from "@/types/blog";
+import { GithubIcon, LinkedInIcon, XIcon } from "@/components/icons";
 
 interface AuthorProfileProps {
   author: Author;
@@ -34,13 +36,13 @@ export function AuthorProfile({ author }: AuthorProfileProps) {
               <div className="mb-6">
                 <p className="text-lg">{author.bio}</p>
               </div>
-              
+
               {author.social && (
                 <div className="flex gap-4 justify-center md:justify-start">
                   {author.social.github && (
-                    <a 
-                      href={author.social.github} 
-                      target="_blank" 
+                    <a
+                      href={author.social.github}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-foreground hover:text-primary transition-colors"
                     >
@@ -48,9 +50,9 @@ export function AuthorProfile({ author }: AuthorProfileProps) {
                     </a>
                   )}
                   {author.social.twitter && (
-                    <a 
-                      href={author.social.twitter} 
-                      target="_blank" 
+                    <a
+                      href={author.social.twitter}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-foreground hover:text-primary transition-colors"
                     >
@@ -58,9 +60,9 @@ export function AuthorProfile({ author }: AuthorProfileProps) {
                     </a>
                   )}
                   {author.social.linkedin && (
-                    <a 
-                      href={author.social.linkedin} 
-                      target="_blank" 
+                    <a
+                      href={author.social.linkedin}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-foreground hover:text-primary transition-colors"
                     >
