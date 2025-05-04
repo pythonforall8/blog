@@ -1,64 +1,87 @@
+import fs from 'fs';
+import path from 'path';
 import { Post, Author, Category } from '@/types/blog';
-import { posts, authors, categories } from '@/lib/blog-sample-data'; // Updated to use dynamically loaded data
+
+// Path to your data folder
+const postsDirectory = path.join(process.cwd(), 'data/blogs');
+const authorsDirectory = path.join(process.cwd(), 'data/authors');
+const categoriesDirectory = path.join(process.cwd(), 'data/categories');
+
+// Read all posts, authors, and categories from their respective directories
+const readJSONFiles = (directory: string) => {
+  const files = fs.readdirSync(directory);
+  return files.map((file) => {
+    const filePath = path.join(directory, file);
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    return JSON.parse(fileContent);
+  });
+};
+
+// Load posts, authors, and categories
+export const posts: Post[] = readJSONFiles(postsDirectory);
+export const authors: Author[] = readJSONFiles(authorsDirectory);
+export const categories: Category[] = readJSONFiles(categoriesDirectory);
+
+// Functions
 
 // Posts
 export function getPosts(): Post[] {
-  return posts; // Return posts directly from the dynamically loaded data
+  return posts;
 }
 
 export function getPostBySlug(slug: string): Post | undefined {
-  return posts.find(post => post.slug === slug); // Find the post by its slug
+  return posts.find(post => post.slug === slug);
 }
 
 export function getPostsByCategory(categorySlug: string): Post[] {
-  return posts.filter(post =>
-    post.categories.some(category => category.slug === categorySlug) // Filter posts by category
+  return posts.filter(post => 
+    post.categories.some(category => category.slug === categorySlug)
   );
 }
 
 export function getPostsByAuthor(authorSlug: string): Post[] {
-  return posts.filter(post => post.author.slug === authorSlug); // Filter posts by author
+  return posts.filter(post => post.author.slug === authorSlug);
 }
 
 export function getRelatedPosts(post: Post, count: number = 3): Post[] {
   // Get posts with the same category, excluding the current post
-  const sameCategoryPosts = posts.filter(p =>
-    p.slug !== post.slug &&
+  const sameCategoryPosts = posts.filter(p => 
+    p.slug !== post.slug && 
     p.categories.some(c1 => post.categories.some(c2 => c1.slug === c2.slug))
   );
-
+  
   // If we have enough posts with the same category, return them
   if (sameCategoryPosts.length >= count) {
     return sameCategoryPosts.slice(0, count);
   }
-
+  
   // Otherwise, add some posts by the same author
-  const sameAuthorPosts = posts.filter(p =>
-    p.slug !== post.slug &&
+  const sameAuthorPosts = posts.filter(p => 
+    p.slug !== post.slug && 
     p.author.slug === post.author.slug &&
     !sameCategoryPosts.includes(p)
   );
-
+  
   const relatedPosts = [...sameCategoryPosts, ...sameAuthorPosts];
-
+  
   // If we still don't have enough, add some recent posts
   if (relatedPosts.length < count) {
-    const otherPosts = posts.filter(p =>
-      p.slug !== post.slug &&
+    const otherPosts = posts.filter(p => 
+      p.slug !== post.slug && 
       !relatedPosts.includes(p)
     ).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
+    
     return [...relatedPosts, ...otherPosts].slice(0, count);
   }
-
+  
   return relatedPosts.slice(0, count);
 }
 
 export function searchPosts(query: string): Post[] {
   const normalizedQuery = query.toLowerCase().trim();
-
+  
   if (!normalizedQuery) return [];
-
+  
   return posts.filter(post => {
     // Search in title, content, excerpt, categories
     return (
@@ -75,18 +98,19 @@ export function searchPosts(query: string): Post[] {
         }
         return false;
       }) ||
-      post.categories.some(cat =>
+      post.categories.some(cat => 
         cat.name.toLowerCase().includes(normalizedQuery)
       )
     );
   });
 }
 
+
 // Categories
 export function getAllCategories(): (Category & { count: number })[] {
   return categories.map(category => ({
     ...category,
-    count: posts.filter(post =>
+    count: posts.filter(post => 
       post.categories.some(c => c.slug === category.slug)
     ).length
   }));
@@ -95,10 +119,10 @@ export function getAllCategories(): (Category & { count: number })[] {
 export function getCategoryInfo(slug: string): (Category & { count: number }) | undefined {
   const category = categories.find(cat => cat.slug === slug);
   if (!category) return undefined;
-
+  
   return {
     ...category,
-    count: posts.filter(post =>
+    count: posts.filter(post => 
       post.categories.some(c => c.slug === slug)
     ).length
   };
