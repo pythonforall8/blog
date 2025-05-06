@@ -1,0 +1,79 @@
+{
+  "slug": "python-web-frameworks",
+  "title": "Comparing Python Web Frameworks",
+  "excerpt": "An in-depth look at Django, Flask, and FastAPI for web development",
+  "date": "2023-11-02",
+  "coverImage": "/blog/web-frameworks.jpg",
+  "author": {
+    "slug": "john-doe",
+    "name": "John Doe",
+    "title": "Senior Python Developer",
+    "bio": "Python enthusiast and software developer with 10 years of experience",
+    "avatar": "/authors/john-doe.jpg",
+    "social": {
+      "twitter": "https://twitter.com/johndoe",
+      "github": "https://github.com/johndoe",
+      "linkedin": "https://linkedin.com/in/johndoe"
+    }
+  },
+  "categories": [
+    {
+      "slug": "web-development",
+      "name": "Web Development",
+      "description": "Building web applications with Python frameworks"
+    }
+  ],
+  "content": [
+    {
+      "type": "paragraph",
+      "value": "Python offers several excellent frameworks for web development. In this article, we'll compare three of the most popular options: Django, Flask, and FastAPI."
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "value": "Django: The Batteries-Included Framework"
+    },
+    {
+      "type": "paragraph",
+      "value": "Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. It follows the 'batteries-included' philosophy, providing many built-in features out of the box."
+    },
+    {
+      "type": "code",
+      "value": "# Installing Django\npip install django\n\n# Creating a new Django project\ndjango-admin startproject myproject",
+      "language": "bash"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "value": "Flask: The Microframework"
+    },
+    {
+      "type": "paragraph",
+      "value": "Flask is a lightweight WSGI web application framework. It is designed to make getting started quick and easy, with the ability to scale up to complex applications."
+    },
+    {
+      "type": "code",
+      "value": "# Installing Flask\npip install flask\n\n# A simple Flask application\nfrom flask import Flask\napp = Flask(__name__)\n\n@app.route('/')\ndef hello_world():\n    return 'Hello, World!'",
+      "language": "python"
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "value": "FastAPI: Modern, Fast, and Async"
+    },
+    {
+      "type": "paragraph",
+      "value": "FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python type hints."
+    },
+    {
+      "type": "code",
+      "value": "# Installing FastAPI\npip install fastapi uvicorn\n\n# A simple FastAPI application\nfrom fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get('/')\ndef read_root():\n    return {'Hello': 'World'}",
+      "language": "python"
+    },
+    {
+      "type": "paragraph",
+      "value": "Each framework has its strengths and is suited for different types of projects. Django is great for large applications with many features, Flask is perfect for smaller projects and microservices, and FastAPI excels at building high-performance APIs."
+    }
+  ],
+  "readingTime": 8
+} 

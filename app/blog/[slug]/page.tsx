@@ -1,7 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { Metadata } from "next";
 import StarryBackground from "@/components/layout/starry";
 import { FooterSection } from "@/components/layout/sections/footer";
@@ -24,8 +24,25 @@ type Block = {
   level?: number;
 };
 
+// Helper function to safely format dates
+const formatDate = (dateString: string): string => {
+  try {
+    // Try to parse as ISO date first
+    return format(parseISO(dateString), "MMMM dd, yyyy");
+  } catch (error) {
+    try {
+      // Fall back to regular Date constructor
+      return format(new Date(dateString), "MMMM dd, yyyy");
+    } catch (error) {
+      // If all else fails, return the original string
+      console.error(`Error formatting date: ${dateString}`, error);
+      return dateString;
+    }
+  }
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPostBySlug(params.slug);
+  const post = await getPostBySlug(params.slug);
 
   if (!post) {
     return {
@@ -44,14 +61,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function BlogPost({ params }: Props) {
-  const post = getPostBySlug(params.slug);
+export default async function BlogPost({ params }: Props) {
+  const post = await getPostBySlug(params.slug);
 
   if (!post) {
     notFound();
   }
 
-  const relatedPosts = getRelatedPosts(post, 3);
+  const relatedPosts = await getRelatedPosts(post, 3);
 
   return (
     <div className="min-h-screen relative">
@@ -60,7 +77,7 @@ export default function BlogPost({ params }: Props) {
         <div className="max-w-4xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-              <span>{format(new Date(post.date), "MMMM dd, yyyy")}</span>
+              <span>{formatDate(post.date)}</span>
               <span>•</span>
               <span>{post.readingTime} min read</span>
             </div>

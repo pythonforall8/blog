@@ -14,11 +14,13 @@ export const metadata: Metadata = {
   title: "Python For All Blog",
   description:
     "Insights, tutorials, and news about Python programming and related technologies.",
+  metadataBase: new URL("https://blog.pythonforall.com"),
   openGraph: {
     type: "website",
     url: "https://blog.pythonforall.com",
     title: "Python For All Blog",
-    description: "Insights, tutorials, and news about Python programming and related technologies.",
+    description:
+      "Insights, tutorials, and news about Python programming and related technologies.",
     siteName: "Python For All Blog",
   },
 };
@@ -32,7 +34,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/pfa_logo.ico" />
-        <meta property="og:image" content="https://www.pythonforall.com/pfa_logo.ico" />
+        <meta
+          property="og:image"
+          content="https://www.pythonforall.com/pfa_logo.ico"
+        />
         <meta property="og:site_name" content="Python For All Blog" />
       </head>
       <body
@@ -41,8 +46,8 @@ export default function RootLayout({
           inter.className
         )}
       >
-        <SpeedInsights/>
-        <Analytics/>
+        <SpeedInsights />
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

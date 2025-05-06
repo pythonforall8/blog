@@ -7,15 +7,15 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
-  - name: "blogs"
+  - name: "blog"
     label: "Blog Posts"
-    folder: "data/blogs"
+    folder: "data/blog"
     format: "json"
     create: true
-    slug: "{{title}}"
+    slug: "{{slug}}"
     fields:
       - { name: "title", label: "Title", widget: "string" }
-      - { name: "slug", label: "Slug", widget: "hidden", default: "{{slug}}" }
+      - { name: "slug", label: "Slug", widget: "string" }
       - {
           name: "author",
           label: "Author",
@@ -27,3 +27,25 @@ collections:
       - { name: "tags", label: "Tags", widget: "list", default: [] }
       - { name: "description", label: "Description", widget: "text" }
       - { name: "content", label: "Content", widget: "markdown" }
+      - { name: "category", label: "Category", widget: "string" }
+
+  - name: "authors"
+    label: "Authors"
+    folder: "data/authors"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "avatar", label: "Avatar", widget: "image" }
+      - { name: "bio", label: "Bio", widget: "text" }
+
+  - name: "categories"
+    label: "Categories"
+    folder: "data/categories"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { name: "name", label: "Name", widget: "string" }
+      - { name: "description", label: "Description", widget: "text" }
