@@ -1,12 +1,12 @@
-import React from 'react';
-import { notFound } from 'next/navigation';
-import { BlogHeader } from '@/components/blog/blog-header';
-import { PostGrid } from '@/components/blog/post-grid';
-import StarryBackground from '@/components/layout/starry';
-import { FooterSection } from '@/components/layout/sections/footer';
-import { AuthorProfile } from '@/components/blog/author-profile';
-import { getPostsByAuthor, getAuthorBySlug } from '@/lib/blog';
-import { Metadata } from 'next';
+import React from "react";
+import { notFound } from "next/navigation";
+import { BlogHeader } from "@/components/blog/blog-header";
+import { PostGrid } from "@/components/blog/post-grid";
+import StarryBackground from "@/components/layout/starry";
+import { FooterSection } from "@/components/layout/sections/footer";
+import { AuthorProfile } from "@/components/blog/author-profile";
+import { getPostsByAuthor, getAuthorBySlug } from "@/lib/blog";
+import { Metadata } from "next";
 
 type Props = {
   params: {
@@ -15,11 +15,11 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const author = getAuthorBySlug(params.slug);
-  
+  const author = await getAuthorBySlug(params.slug);
+
   if (!author) {
     return {
-      title: 'Author Not Found | Python For All Blog',
+      title: "Author Not Found | Python For All Blog",
     };
   }
 
@@ -29,31 +29,35 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function AuthorPage({ params }: Props) {
-  const author = getAuthorBySlug(params.slug);
-  
+export default async function AuthorPage({ params }: Props) {
+  const author = await getAuthorBySlug(params.slug);
+
   if (!author) {
     notFound();
   }
-  
-  const posts = getPostsByAuthor(params.slug);
-  
+
+  const posts = await getPostsByAuthor(params.slug);
+
   return (
     <div className="min-h-screen relative">
       <StarryBackground />
       <div className="container mx-auto px-4 py-12">
-        <BlogHeader 
-          title={`Author: ${author.name}`} 
-          subtitle={`${posts.length} ${posts.length === 1 ? 'article' : 'articles'}`}
+        <BlogHeader
+          title={`Author: ${author.name}`}
+          subtitle={`${posts.length} ${
+            posts.length === 1 ? "article" : "articles"
+          }`}
         />
-        
+
         <div className="mb-12">
           <AuthorProfile author={author} />
         </div>
-        
+
         {posts.length > 0 ? (
           <div>
-            <h2 className="text-2xl font-bold mb-6 text-primary">Articles by {author.name}</h2>
+            <h2 className="text-2xl font-bold mb-6 text-primary">
+              Articles by {author.name}
+            </h2>
             <PostGrid posts={posts} />
           </div>
         ) : (

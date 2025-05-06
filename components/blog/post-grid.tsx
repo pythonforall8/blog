@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { format } from 'date-fns';
-import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Post } from '@/types/blog';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { format } from "date-fns";
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Post } from "@/types/blog";
 
 interface PostGridProps {
   posts: Post[];
@@ -19,24 +19,24 @@ export function PostGrid({ posts }: PostGridProps) {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
-      }
-    }
+        staggerChildren: 0.1,
+      },
+    },
   };
-  
+
   const item = {
     hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
-  
+
   return (
-    <motion.div 
+    <motion.div
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       variants={container}
       initial="hidden"
       animate="show"
     >
-      {posts.map(post => (
+      {posts.map((post) => (
         <motion.div key={post.slug} variants={item}>
           <Card className="h-full overflow-hidden border hover:border-primary/50 transition-all duration-300 group">
             <Link href={`/blog/${post.slug}`} className="block h-full">
@@ -47,9 +47,12 @@ export function PostGrid({ posts }: PostGridProps) {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {post.categories.length > 0 && (
+                {post.categories && post.categories.length > 0 && (
                   <div className="absolute top-2 left-2">
-                    <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+                    <Badge
+                      variant="secondary"
+                      className="bg-background/80 backdrop-blur-sm"
+                    >
                       {post.categories[0].name}
                     </Badge>
                   </div>
@@ -57,9 +60,9 @@ export function PostGrid({ posts }: PostGridProps) {
               </div>
               <CardContent className="p-4 flex flex-col h-[calc(100%-12rem)]">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-                  <span>{format(new Date(post.date), 'MMM dd, yyyy')}</span>
+                  <span>{format(new Date(post.date), "MMM dd, yyyy")}</span>
                   <span>•</span>
-                  <span>{post.readingTime} min read</span>
+                  <span>{post.readingTime || "5"} min read</span>
                 </div>
                 <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                   {post.title}
@@ -68,15 +71,21 @@ export function PostGrid({ posts }: PostGridProps) {
                   {post.excerpt}
                 </p>
                 <div className="flex items-center gap-2 mt-auto">
-                  <div className="relative w-6 h-6 rounded-full overflow-hidden">
-                    <Image
-                      src={post.author.avatar}
-                      alt={post.author.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <span className="text-xs font-medium">{post.author.name}</span>
+                  {post.author && post.author.avatar && (
+                    <div className="relative w-6 h-6 rounded-full overflow-hidden">
+                      <Image
+                        src={post.author.avatar}
+                        alt={post.author.name || "Author"}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  )}
+                  {post.author && (
+                    <span className="text-xs font-medium">
+                      {post.author.name}
+                    </span>
+                  )}
                 </div>
               </CardContent>
             </Link>

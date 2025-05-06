@@ -15,10 +15,23 @@ export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const results = searchPosts(query);
-    setPosts(results);
+    const fetchResults = async () => {
+      setLoading(true);
+      try {
+        const results = await searchPosts(query);
+        setPosts(results);
+      } catch (error) {
+        console.error("Error searching posts:", error);
+        setPosts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
   }, [query]);
 
   return (
@@ -27,14 +40,22 @@ export default function SearchPage() {
       <div className="container mx-auto px-4 py-12">
         <BlogHeader
           title={`Search Results: ${query}`}
-          subtitle={`Found ${posts.length} ${
-            posts.length === 1 ? "article" : "articles"
-          } for "${query}"`}
+          subtitle={
+            loading
+              ? "Searching..."
+              : `Found ${posts.length} ${
+                  posts.length === 1 ? "article" : "articles"
+                } for "${query}"`
+          }
         />
 
         <div className="flex flex-col lg:flex-row gap-6 mb-8">
           <div className="w-full lg:w-3/4">
-            {posts.length > 0 ? (
+            {loading ? (
+              <div className="p-12 text-center">
+                <h3 className="text-xl mb-4">Searching...</h3>
+              </div>
+            ) : posts.length > 0 ? (
               <PostGrid posts={posts} />
             ) : (
               <div className="p-12 text-center">

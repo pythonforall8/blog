@@ -71,23 +71,29 @@ function FeaturedPostContent({ post }: FeaturedPostProps) {
           <div className="flex items-center gap-2 text-sm text-muted-foreground mb-2">
             <span>{formatDate(post.date)}</span>
             <span>•</span>
-            <span>{post.readingTime} min read</span>
+            <span>{post.readingTime || "5"} min read</span>
           </div>
           <h2 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
             {post.title}
           </h2>
           <p className="text-muted-foreground mb-4">{post.excerpt}</p>
-          <div className="flex items-center gap-3">
-            <div className="relative w-8 h-8 rounded-full overflow-hidden">
-              <Image
-                src={post.author.avatar}
-                alt={post.author.name}
-                fill
-                className="object-cover"
-              />
+          {post.author && (
+            <div className="flex items-center gap-3">
+              {post.author.avatar && (
+                <div className="relative w-8 h-8 rounded-full overflow-hidden">
+                  <Image
+                    src={post.author.avatar}
+                    alt={post.author.name || "Author"}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              {post.author.name && (
+                <span className="font-medium">{post.author.name}</span>
+              )}
             </div>
-            <span className="font-medium">{post.author.name}</span>
-          </div>
+          )}
         </CardContent>
       </Link>
     </Card>
