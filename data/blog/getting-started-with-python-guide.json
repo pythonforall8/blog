@@ -1,0 +1,24 @@
+{
+  "slug": "getting-started-with-python-guide",
+  "title": "Getting Started with Python: A Beginner's Guide",
+  "excerpt": "Everything you need to know to begin your Python journey, from installation to writing your first program.",
+  "date": "2024-05-07",
+  "coverImage": "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg",
+  "author": {
+    "slug": "samyak-jain",
+    "name": "Samyak Jain",
+    "title": "Technical Head",
+    "bio": "Full-stack developer and Python enthusiast focused on creating intuitive educational resources and tools.",
+    "avatar": "/samyak.jpg"
+  },
+  "categories": [
+    {
+      "slug": "python-basics",
+      "name": "Python Basics",
+      "description": "Fundamental concepts and tutorials for Python beginners"
+    }
+  ],
+  "featured": true,
+  "readingTime": 8,
+  "content": "# Getting Started with Python: A Beginner's Guide\n\nPython is one of the most popular programming languages in the world, known for its simplicity and versatility. Whether you're interested in web development, data science, artificial intelligence, or automation, Python is an excellent language to learn.\n\n## Installing Python\n\nThe first step is to install Python on your computer. Visit the official Python website (python.org) and download the latest version for your operating system.\n\n```bash\n# Check your Python version\npython --version\n```\n\n## Your First Python Program\n\nLet's start with the classic \"Hello, World!\" program to ensure everything is working correctly.\n\n```python\n# This is a comment\nprint(\"Hello, World!\")\n```\n\nWhen you run this code, you should see \"Hello, World!\" displayed in your console.\n\n## Python Syntax Basics\n\nPython uses indentation to define code blocks, unlike many other programming languages that use braces {}. Here's a simple example:\n\n```python\nif 5 > 2:\n    print(\"Five is greater than two!\")\nelse:\n    print(\"Five is not greater than two!\")\n```\n\nThis indentation is not just for readability – it's a requirement in Python and helps make the code cleaner.\n\n## Variables and Data Types\n\nPython has several built-in data types:\n\n- **Strings**: Text values, e.g., `name = \"John\"`\n- **Integers**: Whole numbers, e.g., `age = 25`\n- **Floats**: Decimal numbers, e.g., `height = 1.75`\n- **Booleans**: True/False values, e.g., `is_student = True`\n- **Lists**: Ordered collections, e.g., `fruits = [\"apple\", \"banana\", \"cherry\"]`\n- **Dictionaries**: Key-value pairs, e.g., `person = {\"name\": \"John\", \"age\": 25}`\n\n## Functions\n\nFunctions are reusable blocks of code. Here's how to define and call a function in Python:\n\n```python\ndef greet(name):\n    return f\"Hello, {name}!\"\n\n# Call the function\nmessage = greet(\"Python learner\")\nprint(message)  # Output: Hello, Python learner!\n```\n\n## Next Steps\n\nNow that you've learned the basics, here are some suggestions for what to learn next:\n\n1. Control flow (if-else statements, loops)\n2. More complex data structures\n3. File handling\n4. Error handling with try-except\n5. Object-oriented programming in Python\n\nHappy coding!"
+} 

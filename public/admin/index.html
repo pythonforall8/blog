@@ -3,6 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
@@ -19,5 +20,203 @@
       }
     </script>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    
+    <script>
+      // Import necessary functions from Preact
+      const h = window.CMS.h;
+      const createClass = window.CMS.createClass;
+      
+      // Custom script to handle author selection and auto-populate author data
+      CMS.registerEventListener({
+        name: 'preSave',
+        handler: ({ entry }) => {
+          const authorName = entry.get('author');
+          let entryData = entry.get('data');
+          
+          // Define author data
+          const authorData = {
+            'Jyoti Sharma': {
+              slug: 'jyoti-sharma',
+              name: 'Jyoti Sharma',
+              title: 'Founder & Content Head',
+              bio: 'Python educator with over 19 years of teaching experience, dedicated to making programming accessible to everyone.',
+              avatar: '/jyoti-mam.png'
+            },
+            'Samyak Jain': {
+              slug: 'samyak-jain',
+              name: 'Samyak Jain',
+              title: 'Technical Head',
+              bio: 'Full-stack developer and Python enthusiast focused on creating intuitive educational resources and tools.',
+              avatar: '/samyak.jpg'
+            }
+          };
+          
+          // Set the author object in the entry based on selected author name
+          if (authorName && authorData[authorName]) {
+            entryData = entryData.set('author', authorData[authorName]);
+          }
+          
+          // Process the markdown content into structured content blocks
+          const content = entry.get('data').get('content');
+          if (content) {
+            // Split content by different heading levels and code blocks
+            const lines = content.split('\n');
+            let structuredContent = [];
+            let currentBlock = { type: 'paragraph', value: '' };
+            let inCodeBlock = false;
+            let codeBlockLanguage = '';
+            
+            lines.forEach(line => {
+              // Check for code blocks
+              if (line.startsWith('```')) {
+                if (!inCodeBlock) {
+                  // Start a new code block
+                  inCodeBlock = true;
+                  codeBlockLanguage = line.slice(3).trim();
+                  
+                  // Save current block if it's not empty
+                  if (currentBlock.type === 'paragraph' && currentBlock.value.trim()) {
+                    structuredContent.push(currentBlock);
+                  }
+                  
+                  currentBlock = { type: 'code', value: '', language: codeBlockLanguage };
+                } else {
+                  // End the code block
+                  inCodeBlock = false;
+                  structuredContent.push(currentBlock);
+                  currentBlock = { type: 'paragraph', value: '' };
+                }
+                return;
+              }
+              
+              if (inCodeBlock) {
+                // Add to code block
+                currentBlock.value += line + '\n';
+                return;
+              }
+              
+              // Check for headings
+              const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+              if (headingMatch) {
+                // Save current block if it's not empty
+                if (currentBlock.type === 'paragraph' && currentBlock.value.trim()) {
+                  structuredContent.push(currentBlock);
+                }
+                
+                const level = headingMatch[1].length;
+                structuredContent.push({
+                  type: 'heading',
+                  value: headingMatch[2].trim(),
+                  level: level
+                });
+                
+                currentBlock = { type: 'paragraph', value: '' };
+                return;
+              }
+              
+              // Regular paragraph content
+              if (currentBlock.type === 'paragraph') {
+                if (currentBlock.value && line) {
+                  currentBlock.value += '\n' + line;
+                } else if (line) {
+                  currentBlock.value = line;
+                } else if (currentBlock.value) {
+                  // Empty line after content means paragraph break
+                  structuredContent.push(currentBlock);
+                  currentBlock = { type: 'paragraph', value: '' };
+                }
+              }
+            });
+            
+            // Add the last block if it's not empty
+            if (
+              (currentBlock.type === 'paragraph' && currentBlock.value.trim()) || 
+              (currentBlock.type === 'code' && currentBlock.value)
+            ) {
+              structuredContent.push(currentBlock);
+            }
+            
+            entryData = entryData.set('content', structuredContent);
+          }
+          
+          return entry.set('data', entryData);
+        }
+      });
+      
+      // Define the predefined categories
+      const predefinedCategories = [
+        { 
+          slug: 'python-basics', 
+          name: 'Python Basics', 
+          description: 'Fundamental concepts and tutorials for Python beginners' 
+        },
+        { 
+          slug: 'advanced-python', 
+          name: 'Advanced Python', 
+          description: 'Advanced Python concepts and techniques for experienced developers' 
+        },
+        { 
+          slug: 'data-science', 
+          name: 'Data Science', 
+          description: 'Topics related to data analysis, visualization, and machine learning' 
+        },
+        { 
+          slug: 'web-development', 
+          name: 'Web Development', 
+          description: 'Topics related to web development with Python' 
+        },
+        { 
+          slug: 'development', 
+          name: 'Development', 
+          description: 'General software development topics and best practices' 
+        }
+      ];
+      
+      // Category Preview Component
+      const CategoryPreview = ({ value }) => {
+        if (!value) return h('div', {}, '');
+        return h('div', {}, value.map(cat => 
+          h('div', { key: cat.slug, style: { marginBottom: '8px', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' } }, 
+            h('strong', {}, cat.name || ''), 
+            h('span', { style: { marginLeft: '10px', color: '#666' } }, `(${cat.slug})`)
+          )
+        ));
+      };
+      
+      // Category Widget
+      const CategoryControl = createClass({
+        handleChange(e) {
+          const selectedOptions = Array.from(e.target.selectedOptions);
+          const selectedCategories = selectedOptions.map(option => {
+            const category = predefinedCategories.find(cat => cat.slug === option.value);
+            return category || { slug: option.value, name: option.value };
+          });
+          this.props.onChange(selectedCategories);
+        },
+        
+        render() {
+          const { value, forID } = this.props;
+          const selectedValues = value ? value.map(v => v.slug) : [];
+          
+          return h('div', {},
+            h('select', {
+              id: forID,
+              value: selectedValues,
+              multiple: true,
+              onChange: this.handleChange,
+              style: { width: '100%', minHeight: '120px' }
+            }, 
+            predefinedCategories.map(category => 
+              h('option', { key: category.slug, value: category.slug }, 
+                `${category.name} - ${category.description}`
+              )
+            ))
+          );
+        }
+      });
+      
+      // Register the custom category widget
+      CMS.registerWidget('categoriesWidget', CategoryControl, CategoryPreview);
+    </script>
   </body>
 </html>

@@ -133,7 +133,7 @@ export async function getAllCategories(): Promise<(Category & { count: number })
       count: posts.filter(post => 
         (post.categories ?? []).some(c => c.slug === category.slug)
       ).length
-    }));
+    })).filter(category => category.count > 0); // Only return categories with at least one post
   } catch (error) {
     console.error('Error fetching categories:', error);
     return [];
@@ -148,12 +148,12 @@ export async function getCategoryInfo(slug: string): Promise<(Category & { count
     const category = categories.find(cat => cat.slug === slug);
     if (!category) return undefined;
     
-    return {
-      ...category,
-      count: posts.filter(post => 
-        (post.categories ?? []).some(c => c.slug === slug)
-      ).length
-    };
+    const count = posts.filter(post => 
+      (post.categories ?? []).some(c => c.slug === slug)
+    ).length;
+    
+    // Only return the category if it has at least one post
+    return count > 0 ? { ...category, count } : undefined;
   } catch (error) {
     console.error(`Error fetching category ${slug}:`, error);
     return undefined;

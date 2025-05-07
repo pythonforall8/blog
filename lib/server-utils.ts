@@ -36,13 +36,55 @@ export function readJSONFiles<T>(directory: string): T[] {
 
 // Load posts, authors, and categories
 export function getServerPosts(): Post[] {
-  return readJSONFiles<Post>(postsDirectory);
+  console.log('Reading posts from: ', postsDirectory);
+  const posts = readJSONFiles<Post>(postsDirectory);
+  console.log(`Found ${posts.length} posts.`);
+  return posts;
 }
 
 export function getServerAuthors(): Author[] {
-  return readJSONFiles<Author>(authorsDirectory);
+  console.log('Reading authors from: ', authorsDirectory);
+  const authors = readJSONFiles<Author>(authorsDirectory);
+  console.log(`Found ${authors.length} authors.`);
+  return authors;
 }
 
+// Extract unique categories from all blog posts
 export function getServerCategories(): Category[] {
-  return readJSONFiles<Category>(categoriesDirectory);
+  // First try to get categories from the categories directory
+  console.log('Reading categories from: ', categoriesDirectory);
+  const categoriesFromFiles = readJSONFiles<Category>(categoriesDirectory);
+  console.log(`Found ${categoriesFromFiles.length} categories from files.`);
+  
+  // If we have categories in the directory, return them
+  if (categoriesFromFiles.length > 0) {
+    return categoriesFromFiles;
+  }
+  
+  // Otherwise, extract categories from posts
+  console.log('No categories found in directory, extracting from posts...');
+  const posts = getServerPosts();
+  const categoriesMap = new Map<string, Category>();
+  
+  posts.forEach(post => {
+    if (!post.categories) {
+      console.log(`Post ${post.slug} has no categories.`);
+      return;
+    }
+    
+    post.categories.forEach(category => {
+      if (category && category.slug && !categoriesMap.has(category.slug)) {
+        console.log(`Adding category from post: ${category.name} (${category.slug})`);
+        categoriesMap.set(category.slug, {
+          slug: category.slug,
+          name: category.name,
+          description: category.description || `Posts about ${category.name}`
+        });
+      }
+    });
+  });
+  
+  const extractedCategories = Array.from(categoriesMap.values());
+  console.log(`Extracted ${extractedCategories.length} unique categories from posts.`);
+  return extractedCategories;
 } 

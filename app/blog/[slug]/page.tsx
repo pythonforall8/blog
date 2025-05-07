@@ -41,6 +41,31 @@ const formatDate = (dateString: string): string => {
   }
 };
 
+// Helper function to prepare content for ArticleContent component
+const prepareContent = (content: any): Block[] => {
+  // If content is a string (from Decap CMS), convert it to a single block
+  if (typeof content === "string") {
+    return [
+      {
+        type: "markdown",
+        value: content,
+      },
+    ];
+  }
+
+  // If content is already an array (from our sample data), process it
+  if (Array.isArray(content)) {
+    return content.map((block) => ({
+      ...block,
+      value: Array.isArray(block.value) ? block.value.join("\n") : block.value,
+    }));
+  }
+
+  // Fallback for unexpected content format
+  console.error("Unexpected content format:", content);
+  return [{ type: "paragraph", value: "Content format error" }];
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getPostBySlug(params.slug);
 
@@ -74,12 +99,12 @@ export default async function BlogPost({ params }: Props) {
     <div className="min-h-screen relative">
       <StarryBackground />
       <article className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="mb-8">
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <span>{formatDate(post.date)}</span>
               <span>•</span>
-              <span>{post.readingTime} min read</span>
+              <span>{post.readingTime || "5"} min read</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               {post.title}
@@ -98,22 +123,15 @@ export default async function BlogPost({ params }: Props) {
           </div>
 
           <div className="flex gap-8 flex-col lg:flex-row">
-            <div className="lg:w-8/12">
-              <ArticleContent
-                content={post.content.map((block) => ({
-                  ...block,
-                  value: Array.isArray(block.value)
-                    ? block.value.join("\n")
-                    : block.value,
-                }))}
-              />
+            <div className="lg:w-9/12">
+              <ArticleContent content={prepareContent(post.content)} />
               <div className="mt-8">
                 <ShareButtons title={post.title} slug={post.slug} />
               </div>
             </div>
 
-            <aside className="lg:w-4/12 space-y-8">
-              <AuthorCard author={post.author} />
+            <aside className="lg:w-3/12 space-y-8">
+              {post.author && <AuthorCard author={post.author} />}
               {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
             </aside>
           </div>

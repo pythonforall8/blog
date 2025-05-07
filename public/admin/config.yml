@@ -6,6 +6,9 @@ backend:
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
+publish_mode: editorial_workflow
+local_backend: true
+
 collections:
   - name: "blog"
     label: "Blog Posts"
@@ -13,21 +16,83 @@ collections:
     format: "json"
     create: true
     slug: "{{slug}}"
+    summary: "{{title}} - {{author}} ({{date | date('YYYY-MM-DD')}})"
     fields:
       - { name: "title", label: "Title", widget: "string" }
-      - { name: "slug", label: "Slug", widget: "string" }
+      - {
+          name: "slug",
+          label: "Slug",
+          widget: "string",
+          hint: "URL-friendly version of the title",
+        }
+      - {
+          name: "excerpt",
+          label: "Excerpt",
+          widget: "text",
+          hint: "A short summary of the post",
+        }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "coverImage", label: "Cover Image", widget: "image" }
+      - {
+          name: "readingTime",
+          label: "Reading Time (minutes)",
+          widget: "number",
+          default: 5,
+          value_type: "int",
+        }
+      - {
+          name: "featured",
+          label: "Featured Post",
+          widget: "boolean",
+          default: false,
+          required: false,
+        }
       - {
           name: "author",
           label: "Author",
           widget: "select",
           options: ["Jyoti Sharma", "Samyak Jain"],
+          default: "Jyoti Sharma",
         }
-      - { name: "date", label: "Date", widget: "datetime" }
-      - { name: "coverImage", label: "Cover Image", widget: "image" }
-      - { name: "tags", label: "Tags", widget: "list", default: [] }
-      - { name: "description", label: "Description", widget: "text" }
+      - {
+          name: "authorData",
+          label: "Author Data",
+          widget: "object",
+          fields:
+            [
+              {
+                name: "jyoti",
+                widget: "hidden",
+                default:
+                  {
+                    slug: "jyoti-sharma",
+                    name: "Jyoti Sharma",
+                    title: "Founder & Content Head",
+                    bio: "Python educator with over 19 years of teaching experience, dedicated to making programming accessible to everyone.",
+                    avatar: "/jyoti-mam.png",
+                  },
+              },
+              {
+                name: "samyak",
+                widget: "hidden",
+                default:
+                  {
+                    slug: "samyak-jain",
+                    name: "Samyak Jain",
+                    title: "Technical Head",
+                    bio: "Full-stack developer and Python enthusiast focused on creating intuitive educational resources and tools.",
+                    avatar: "/samyak.jpg",
+                  },
+              },
+            ],
+        }
+      - {
+          name: "categories",
+          label: "Categories",
+          widget: "categoriesWidget",
+          default: [],
+        }
       - { name: "content", label: "Content", widget: "markdown" }
-      - { name: "category", label: "Category", widget: "string" }
 
   - name: "authors"
     label: "Authors"
@@ -47,5 +112,6 @@ collections:
     create: true
     slug: "{{slug}}"
     fields:
+      - { name: "slug", label: "Slug", widget: "string" }
       - { name: "name", label: "Name", widget: "string" }
       - { name: "description", label: "Description", widget: "text" }

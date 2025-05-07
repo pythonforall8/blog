@@ -6,11 +6,9 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { getAllCategories } from "@/lib/blog";
+import { Category } from "@/types/blog";
 
-interface Category {
-  slug: string;
-  name: string;
+interface CategoryWithCount extends Category {
   count: number;
 }
 
@@ -21,16 +19,21 @@ interface CategoryFilterProps {
 export function CategoryFilter({ activeCategory }: CategoryFilterProps) {
   const pathname = usePathname();
   const isOnCategoryPage = pathname.includes("/blog/category/");
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CategoryWithCount[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadCategories() {
       try {
-        const data = await getAllCategories();
+        const response = await fetch("/api/categories");
+        if (!response.ok) throw new Error("Failed to fetch categories");
+
+        const data = await response.json();
+        console.log(`Loaded ${data.length} categories from API:`, data);
         setCategories(data || []);
       } catch (error) {
         console.error("Error loading categories:", error);
+        setCategories([]);
       } finally {
         setLoading(false);
       }
@@ -89,20 +92,26 @@ export function CategoryFilter({ activeCategory }: CategoryFilterProps) {
               All Posts
             </Link>
           </motion.div>
-          {categories.map((category) => (
-            <motion.div key={category.slug} variants={itemVariants}>
-              <Link
-                href={`/blog/category/${category.slug}`}
-                className={cn(
-                  "block px-3 py-2 rounded-md transition-colors hover:bg-muted",
-                  activeCategory === category.slug &&
-                    "bg-muted font-medium text-primary"
-                )}
-              >
-                {category.name} ({category.count})
-              </Link>
-            </motion.div>
-          ))}
+          {categories.length > 0 ? (
+            categories.map((category) => (
+              <motion.div key={category.slug} variants={itemVariants}>
+                <Link
+                  href={`/blog/category/${category.slug}`}
+                  className={cn(
+                    "block px-3 py-2 rounded-md transition-colors hover:bg-muted",
+                    activeCategory === category.slug &&
+                      "bg-muted font-medium text-primary"
+                  )}
+                >
+                  {category.name} ({category.count})
+                </Link>
+              </motion.div>
+            ))
+          ) : (
+            <div className="px-3 py-2 text-sm text-muted-foreground">
+              No categories found
+            </div>
+          )}
         </CardContent>
       </Card>
     </motion.div>
