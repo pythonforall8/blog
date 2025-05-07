@@ -36,6 +36,7 @@ const routeList: RouteProps[] = [
   { href: "https://pythonforall.com/student-corner", label: "Student Corner" },
   { href: "https://pythonforall.com/practice", label: "Practice Corner" },
   { href: "https://pythonforall.com/pyground", label: "Pyground" },
+  { href: "https://blog.pythonforall.com/", label: "Blog" },
   { href: "https://pythonforall.com/about", label: "About" },
 ];
 
