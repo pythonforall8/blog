@@ -1,0 +1,34 @@
+{
+  "excerpt": "Just testing if it will work or not.",
+  "coverImage": "https://images.prismic.io/staticmania/6579add3531ac2845a2635e7_DecapCMSvs.Netlify3.jpg?auto=format,compress",
+  "author": "Samyak Jain",
+  "slug": "testing-decap-cms",
+  "featured": true,
+  "date": "2025-05-07T06:37:00.000Z",
+  "authorData": {
+    "jyoti": {
+      "slug": "jyoti-sharma",
+      "name": "Jyoti Sharma",
+      "title": "Founder & Content Head",
+      "bio": "Python educator with over 19 years of teaching experience, dedicated to making programming accessible to everyone.",
+      "avatar": "/jyoti-mam.png"
+    },
+    "samyak": {
+      "slug": "samyak-jain",
+      "name": "Samyak Jain",
+      "title": "Technical Head",
+      "bio": "Full-stack developer and Python enthusiast focused on creating intuitive educational resources and tools.",
+      "avatar": "/samyak.jpg"
+    }
+  },
+  "title": "Testing DECAP CMS",
+  "content": [
+    {
+      "type": "heading",
+      "value": "Just testing really..",
+      "level": 1
+    }
+  ],
+  "readingTime": 5,
+  "categories": []
+}
