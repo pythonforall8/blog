@@ -78,10 +78,7 @@ export const Navbar = () => {
       variants={navbarVariants}
     >
       <Button variant="ghost" className="hover:bg-accent">
-        <Link
-          href="https://blog.pythonforall.com/"
-          className="font-bold text-lg flex items-center"
-        >
+        <Link href="/" className="font-bold text-lg flex items-center">
           <Image
             src="/pfa_logo.ico"
             alt="PythonForAll Logo"
@@ -118,7 +115,7 @@ export const Navbar = () => {
                       height={36}
                       className="mr-2"
                     />
-                    PythonForAll
+                    PythonForAll Blog
                   </Link>
                 </SheetTitle>
               </SheetHeader>
