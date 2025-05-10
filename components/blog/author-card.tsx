@@ -30,7 +30,7 @@ export function AuthorCard({ author }: AuthorCardProps) {
               <Image
                 src={author.avatar}
                 alt={author.name}
-                fill
+                layout="fill"
                 className="object-cover"
               />
             </div>
@@ -86,7 +86,7 @@ export function AuthorCard({ author }: AuthorCardProps) {
             >
               <Link href={`/blog/author/${author.slug}`}>
                 <span className="truncate block">
-                  View all posts by {author.name}
+                  All posts by {author.name}
                 </span>
               </Link>
             </Button>

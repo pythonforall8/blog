@@ -10,6 +10,7 @@ import { AuthorCard } from "@/components/blog/author-card";
 import { ShareButtons } from "@/components/blog/share-buttons";
 import { RelatedPosts } from "@/components/blog/related-posts";
 import { getPostBySlug, getRelatedPosts } from "@/lib/blog";
+import { BlogHeader } from "@/components/blog/blog-header";
 
 type Props = {
   params: {
@@ -101,6 +102,7 @@ export default async function BlogPost({ params }: Props) {
       <article className="container mx-auto px-4 py-12">
         <div className="max-w-5xl mx-auto">
           <div className="mb-8">
+            <BlogHeader />
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <span>{formatDate(post.date)}</span>
               <span>•</span>

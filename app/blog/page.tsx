@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { BlogHeader } from "@/components/blog/blog-header";
+import { BlogHead } from "@/components/blog/blog-head";
 import { FeaturedPost } from "@/components/blog/featured-post";
 import { PostGrid } from "@/components/blog/post-grid";
 import { CategoryFilter } from "@/components/blog/category-filter";
@@ -62,7 +62,7 @@ export default function BlogPage() {
     <div className="min-h-screen relative">
       <StarryBackground />
       <div className="container mx-auto px-4 py-12">
-        <BlogHeader
+        <BlogHead
           title="Python For All Blog"
           subtitle="Insights, tutorials, and news about Python programming"
         />

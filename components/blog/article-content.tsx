@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import {
   vscDarkPlus,
-  vs,
+  tomorrow,
 } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "next-themes";
 import ReactMarkdown from "react-markdown";
@@ -50,12 +50,11 @@ function CodeBlock({ language, value }: { language: string; value: string }) {
           )}
         </button>
       </div>
-      <div className="relative">
+      <div className="relative rounded-b-md bg-white dark:bg-[#1e1e1e]">
         <SyntaxHighlighter
           language={language}
-          style={isDarkTheme ? vscDarkPlus : vs}
+          style={isDarkTheme ? vscDarkPlus : tomorrow}
           PreTag="div"
-          className="rounded-b-md !mt-0 !bg-[#1e1e1e] dark:!bg-[#1e1e1e]"
           showLineNumbers
           customStyle={{
             margin: 0,
@@ -74,9 +73,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
   const { theme } = useTheme();
   const isDarkTheme = theme === "dark";
 
-  const headingClasses: {
-    [key in "h1" | "h2" | "h3" | "h4" | "h5" | "h6"]: string;
-  } = {
+  const headingClasses: Record<string, string> = {
     h1: "text-4xl font-bold mb-6 mt-10",
     h2: "text-3xl font-bold mb-4 mt-8",
     h3: "text-2xl font-semibold mb-3 mt-6",
@@ -99,46 +96,44 @@ export function ArticleContent({ content }: ArticleContentProps) {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               components={{
-                h1: ({ node, children }) => (
+                h1: ({ children }) => (
                   <h1 className={headingClasses.h1}>{children}</h1>
                 ),
-                h2: ({ node, children }) => (
+                h2: ({ children }) => (
                   <h2 className={headingClasses.h2}>{children}</h2>
                 ),
-                h3: ({ node, children }) => (
+                h3: ({ children }) => (
                   <h3 className={headingClasses.h3}>{children}</h3>
                 ),
-                h4: ({ node, children }) => (
+                h4: ({ children }) => (
                   <h4 className={headingClasses.h4}>{children}</h4>
                 ),
-                h5: ({ node, children }) => (
+                h5: ({ children }) => (
                   <h5 className={headingClasses.h5}>{children}</h5>
                 ),
-                h6: ({ node, children }) => (
+                h6: ({ children }) => (
                   <h6 className={headingClasses.h6}>{children}</h6>
                 ),
-                p: ({ node, children }) => (
+                p: ({ children }) => (
                   <p className="mb-6 text-lg leading-relaxed">{children}</p>
                 ),
-                ul: ({ node, children }) => (
+                ul: ({ children }) => (
                   <ul className="list-disc pl-6 mb-6 space-y-2 text-lg">
                     {children}
                   </ul>
                 ),
-                ol: ({ node, children }) => (
+                ol: ({ children }) => (
                   <ol className="list-decimal pl-6 mb-6 space-y-2 text-lg">
                     {children}
                   </ol>
                 ),
-                li: ({ node, children }) => (
-                  <li className="mb-2">{children}</li>
-                ),
-                blockquote: ({ node, children }) => (
+                li: ({ children }) => <li className="mb-2">{children}</li>,
+                blockquote: ({ children }) => (
                   <blockquote className="border-l-4 border-primary pl-6 py-2 my-6 bg-gray-50 dark:bg-gray-800 italic">
                     {children}
                   </blockquote>
                 ),
-                a: ({ node, href, children }) => (
+                a: ({ href, children }) => (
                   <a
                     href={href}
                     className="text-primary hover:underline font-medium"
@@ -146,41 +141,38 @@ export function ArticleContent({ content }: ArticleContentProps) {
                     {children}
                   </a>
                 ),
-                strong: ({ node, children }) => (
+                strong: ({ children }) => (
                   <strong className="font-bold">{children}</strong>
                 ),
-                em: ({ node, children }) => (
-                  <em className="italic">{children}</em>
-                ),
-                table: ({ node, children }) => (
+                em: ({ children }) => <em className="italic">{children}</em>,
+                table: ({ children }) => (
                   <div className="overflow-x-auto mb-8 border dark:border-gray-700 rounded-lg">
                     <table className="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
                       {children}
                     </table>
                   </div>
                 ),
-                thead: ({ node, children }) => (
+                thead: ({ children }) => (
                   <thead className="bg-gray-100 dark:bg-gray-800">
                     {children}
                   </thead>
                 ),
-                tbody: ({ node, children }) => (
+                tbody: ({ children }) => (
                   <tbody className="divide-y divide-gray-200 dark:divide-gray-800">
                     {children}
                   </tbody>
                 ),
-                tr: ({ node, children }) => <tr>{children}</tr>,
-                th: ({ node, children }) => (
+                tr: ({ children }) => <tr>{children}</tr>,
+                th: ({ children }) => (
                   <th className="px-6 py-4 text-left text-sm font-semibold">
                     {children}
                   </th>
                 ),
-                td: ({ node, children }) => (
+                td: ({ children }) => (
                   <td className="px-6 py-4 text-sm">{children}</td>
                 ),
-                code: ({ node, className, children }) => {
+                code: ({ className, children }) => {
                   const match = /language-(\w+)/.exec(className || "");
-
                   return match ? (
                     <CodeBlock
                       language={match[1]}
@@ -192,7 +184,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
                     </code>
                   );
                 },
-                img: ({ node, src, alt }) => (
+                img: ({ src, alt }) => (
                   <div className="my-8">
                     <img
                       src={src || ""}
@@ -236,7 +228,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <Tag className={headingClasses[tag]}>{item.value}</Tag>
+            <Tag className={headingClasses[tag]}> {item.value} </Tag>
           </motion.div>
         );
 
@@ -264,7 +256,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            {(item.value as string[]).map((li: string, i: number) => (
+            {(item.value as string[]).map((li, i) => (
               <li key={i}>{li}</li>
             ))}
           </motion.ul>
@@ -279,7 +271,7 @@ export function ArticleContent({ content }: ArticleContentProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            {(item.value as string[]).map((li: string, i: number) => (
+            {(item.value as string[]).map((li, i) => (
               <li key={i}>{li}</li>
             ))}
           </motion.ol>
