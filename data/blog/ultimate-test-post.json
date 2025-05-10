@@ -1,22 +1,17 @@
 {
-  "title": "The Ultimate Test Post for Decap CMS",
+  "excerpt": "This is a comprehensive test post to validate all MDX blog features.",
+  "coverImage": "https://images.pexels.com/photos/4974915/pexels-photo-4974915.jpeg",
+  "author": "Samyak Jain",
   "slug": "ultimate-test-post",
-  "date": "2025-05-06",
-  "author": {
-    "name": "Samyak Jain",
-    "slug": "samyak-jain",
-    "avatar": "/samyak.jpg",
-    "bio": "Web developer and content creator"
-  },
+  "featured": true,
+  "date": "2025-05-10T20:56:00.000Z",
+  "title": "The Ultimate Test Post for Decap CMS",
+  "content": "# Welcome to the Ultimate Test Post 🚀\n\nThis post is meant to test all features supported by our blog setup using Decap CMS and MDX.\n\n## Markdown Features\n\n### Headings\n- H1: # Heading\n- H2: ## Heading\n- H3: ### Heading\n\n### Text Formatting\n- *Italic*\n- **Bold**\n- ~~Strikethrough~~\n\n### Blockquote\n> \"Decap CMS makes content editing so easy!\" — Happy Editor\n\n### Links\n[Visit OpenAI](https://openai.com)\n\n### Lists\n\n#### Unordered List\n- First item\n- Second item\n- Nested item\n- Third item\n\n#### Ordered List\n1. First step\n2. Second step\n3. Third step\n\n### Images\n![Decap CMS Logo](/images/decap-logo.png)\n\n### Tables\n| Feature | Supported | Notes |\n|-------------|-----------|-----------------------------|\n| Markdown | ✅ | All the basics are covered |\n| MDX | ✅ | Works with JSX |\n| Code blocks | ✅ | Syntax highlighting ready |\n\n## Code Blocks\n\n### JavaScript Example\n```js\nfunction greet(name) {\n  console.log(`Hello, ${name}!`);\n}\ngreet(\"Decap\");\n```\n\n### Python Example\n```python\ndef greet(name):\n    print(f\"Hello, {name}!\")\ngreet(\"Decap\")\n```\n\n## Conclusion\n\nIf you're seeing this post rendered correctly, **your MDX blog setup is working perfectly!** 🎉\n\nHappy blogging! 📝",
+  "readingTime": 5,
   "categories": [
     {
       "name": "Development",
       "slug": "development"
     }
-  ],
-  "coverImage": "https://images.pexels.com/photos/4974915/pexels-photo-4974915.jpeg",
-  "excerpt": "This is a comprehensive test post to validate all MDX blog features.",
-  "content": "# Welcome to the Ultimate Test Post 🚀\n\nThis post is meant to test all features supported by our blog setup using Decap CMS and MDX.\n\n## Markdown Features\n\n### Headings\n- H1: # Heading\n- H2: ## Heading\n- H3: ### Heading\n\n### Text Formatting\n- *Italic*\n- **Bold**\n- ~~Strikethrough~~\n\n### Blockquote\n> \"Decap CMS makes content editing so easy!\" — Happy Editor\n\n### Links\n[Visit OpenAI](https://openai.com)\n\n### Lists\n\n#### Unordered List\n- First item\n- Second item\n- Nested item\n- Third item\n\n#### Ordered List\n1. First step\n2. Second step\n3. Third step\n\n### Images\n![Decap CMS Logo](/images/decap-logo.png)\n\n### Tables\n| Feature | Supported | Notes |\n|-------------|-----------|-----------------------------|\n| Markdown | ✅ | All the basics are covered |\n| MDX | ✅ | Works with JSX |\n| Code blocks | ✅ | Syntax highlighting ready |\n\n## Code Blocks\n\n### JavaScript Example\n```js\nfunction greet(name) {\n  console.log(`Hello, ${name}!`);\n}\ngreet(\"Decap\");\n```\n\n### Python Example\n```python\ndef greet(name):\n    print(f\"Hello, {name}!\")\ngreet(\"Decap\")\n```\n\n## Conclusion\n\nIf you're seeing this post rendered correctly, **your MDX blog setup is working perfectly!** 🎉\n\nHappy blogging! 📝",
-  "readingTime": 5,
-  "featured": true
-} 
+  ]
+}
