@@ -18,7 +18,9 @@ export function BlogHead({ title, subtitle }: BlogHeaderProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {title}
+          <span className="text-transparent px-2 bg-gradient-to-r from-[#D247BF] to-primary bg-clip-text">
+            {title}
+          </span>
         </motion.h1>
         {subtitle && (
           <motion.p
