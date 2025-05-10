@@ -1,7 +1,13 @@
 {
   "excerpt": "Learn how to create stunning visualizations in Python using the Matplotlib library.",
   "coverImage": "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg",
-  "author": "Jyoti Sharma",
+  "author": {
+    "slug": "samyak-jain",
+    "name": "Samyak Jain",
+    "title": "Technical Head",
+    "bio": "Full-stack developer and Python enthusiast focused on creating intuitive educational resources and tools.",
+    "avatar": "/samyak.jpg"
+  },
   "slug": "data-visualization-with-matplotlib",
   "featured": true,
   "date": "2025-05-06T00:00:00.000Z",
@@ -12,7 +18,7 @@
     {
       "slug": "data-science",
       "name": "Data Science",
-      "description": "Topics related to data analysis, visualization, and machine learning"
+      "description": "Articles about Python for data analysis, visualization, and machine learning"
     },
     {
       "slug": "python-basics",
