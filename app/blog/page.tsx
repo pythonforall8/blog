@@ -1,6 +1,5 @@
 import React, { Suspense } from "react";
 import { BlogHeader } from "@/components/blog/blog-header";
-import { Navbar } from "@/components/layout/navbar";
 import { FeaturedPost } from "@/components/blog/featured-post";
 import { PostGrid } from "@/components/blog/post-grid";
 import { CategoryFilter } from "@/components/blog/category-filter";

@@ -19,7 +19,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4 }}
     >
-      <Card>
+      <Card className="border-primary/20">
         <CardHeader className="pb-2">
           <CardTitle className="text-xl">Related Articles</CardTitle>
         </CardHeader>
@@ -29,10 +29,10 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="block group"
+                className="block group blog-link"
               >
                 <div className="flex gap-3">
-                  <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0">
+                  <div className="relative w-16 h-16 rounded-md overflow-hidden flex-shrink-0 border border-primary/10">
                     <Image
                       src={post.coverImage}
                       alt={post.title}

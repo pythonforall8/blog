@@ -122,7 +122,7 @@ export default async function BlogPost({ params }: Props) {
             </div>
           </div>
 
-          <div className="flex gap-8 flex-col lg:flex-row">
+          <div className="flex flex-col-reverse lg:flex-row gap-8">
             <div className="lg:w-9/12">
               <ArticleContent content={prepareContent(post.content)} />
               <div className="mt-8">
@@ -130,9 +130,13 @@ export default async function BlogPost({ params }: Props) {
               </div>
             </div>
 
-            <aside className="lg:w-3/12 space-y-8">
-              {post.author && <AuthorCard author={post.author} />}
-              {relatedPosts.length > 0 && <RelatedPosts posts={relatedPosts} />}
+            <aside className="lg:w-3/12 mb-8 lg:mb-0">
+              <div className="sticky top-28 space-y-8">
+                {post.author && <AuthorCard author={post.author} />}
+                {relatedPosts.length > 0 && (
+                  <RelatedPosts posts={relatedPosts} />
+                )}
+              </div>
             </aside>
           </div>
         </div>

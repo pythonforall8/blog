@@ -43,8 +43,8 @@ export function FeaturedPost({ post }: FeaturedPostProps) {
 
 function FeaturedPostContent({ post }: FeaturedPostProps) {
   return (
-    <Card className="overflow-hidden border-2 hover:border-primary transition-all duration-300 group">
-      <Link href={`/blog/${post.slug}`} className="block">
+    <Card className="overflow-hidden border-2 hover:border-primary transition-all duration-300 group blog-card">
+      <Link href={`/blog/${post.slug}`} className="block blog-link">
         <div className="relative w-full h-72">
           <Image
             src={post.coverImage}
@@ -54,15 +54,24 @@ function FeaturedPostContent({ post }: FeaturedPostProps) {
             priority
           />
           {post.categories && post.categories.length > 0 && (
-            <div className="absolute top-4 left-4 flex gap-2">
+            <div
+              className="absolute top-4 left-4 flex gap-2"
+              onClick={(e) => e.stopPropagation()}
+            >
               {post.categories.map((category) => (
-                <Badge
+                <Link
                   key={category.slug}
-                  variant="secondary"
-                  className="bg-background/80 backdrop-blur-sm"
+                  href={`/blog/category/${category.slug}`}
+                  className="no-underline"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  {category.name}
-                </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="bg-background/80 backdrop-blur-sm hover:bg-background cursor-pointer"
+                  >
+                    {category.name}
+                  </Badge>
+                </Link>
               ))}
             </div>
           )}
@@ -78,7 +87,10 @@ function FeaturedPostContent({ post }: FeaturedPostProps) {
           </h2>
           <p className="text-muted-foreground mb-4">{post.excerpt}</p>
           {post.author && (
-            <div className="flex items-center gap-3">
+            <div
+              className="flex items-center gap-3"
+              onClick={(e) => e.stopPropagation()}
+            >
               {post.author.avatar && (
                 <div className="relative w-8 h-8 rounded-full overflow-hidden">
                   <Image
@@ -90,7 +102,12 @@ function FeaturedPostContent({ post }: FeaturedPostProps) {
                 </div>
               )}
               {post.author.name && (
-                <span className="font-medium">{post.author.name}</span>
+                <Link
+                  href={`/blog/author/${post.author.slug}`}
+                  className="font-medium hover:text-primary transition-colors"
+                >
+                  {post.author.name}
+                </Link>
               )}
             </div>
           )}

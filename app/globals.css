@@ -337,3 +337,22 @@ html {
   }  
 }
 
+/* Blog specific styles */
+.blog-card {
+  cursor: url('/link.png'), pointer !important;
+}
+
+.dark .blog-card {
+  cursor: url('/link_dark.png'), pointer !important;
+}
+
+.blog-link, 
+.blog-link * {
+  cursor: url('/link.png'), pointer !important;
+}
+
+.dark .blog-link,
+.dark .blog-link * {
+  cursor: url('/link_dark.png'), pointer !important;
+}
+

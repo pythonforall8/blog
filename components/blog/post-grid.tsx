@@ -38,8 +38,11 @@ export function PostGrid({ posts }: PostGridProps) {
     >
       {posts.map((post) => (
         <motion.div key={post.slug} variants={item}>
-          <Card className="h-full overflow-hidden border hover:border-primary/50 transition-all duration-300 group">
-            <Link href={`/blog/${post.slug}`} className="block h-full">
+          <Card className="h-full overflow-hidden border hover:border-primary/50 transition-all duration-300 group blog-card">
+            <Link
+              href={`/blog/${post.slug}`}
+              className="block h-full blog-link"
+            >
               <div className="relative w-full h-48">
                 <Image
                   src={post.coverImage}
@@ -48,13 +51,22 @@ export function PostGrid({ posts }: PostGridProps) {
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {post.categories && post.categories.length > 0 && (
-                  <div className="absolute top-2 left-2">
-                    <Badge
-                      variant="secondary"
-                      className="bg-background/80 backdrop-blur-sm"
+                  <div
+                    className="absolute top-2 left-2"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Link
+                      href={`/blog/category/${post.categories[0].slug}`}
+                      className="no-underline"
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      {post.categories[0].name}
-                    </Badge>
+                      <Badge
+                        variant="secondary"
+                        className="bg-background/80 backdrop-blur-sm hover:bg-background cursor-pointer"
+                      >
+                        {post.categories[0].name}
+                      </Badge>
+                    </Link>
                   </div>
                 )}
               </div>
@@ -70,7 +82,10 @@ export function PostGrid({ posts }: PostGridProps) {
                 <p className="text-muted-foreground text-sm mb-4 line-clamp-3 flex-grow">
                   {post.excerpt}
                 </p>
-                <div className="flex items-center gap-2 mt-auto">
+                <div
+                  className="flex items-center gap-2 mt-auto"
+                  onClick={(e) => e.stopPropagation()}
+                >
                   {post.author && post.author.avatar && (
                     <div className="relative w-6 h-6 rounded-full overflow-hidden">
                       <Image
@@ -81,10 +96,13 @@ export function PostGrid({ posts }: PostGridProps) {
                       />
                     </div>
                   )}
-                  {post.author && (
-                    <span className="text-xs font-medium">
+                  {post.author && post.author.slug && (
+                    <Link
+                      href={`/blog/author/${post.author.slug}`}
+                      className="text-xs font-medium hover:text-primary transition-colors"
+                    >
                       {post.author.name}
-                    </span>
+                    </Link>
                   )}
                 </div>
               </CardContent>
