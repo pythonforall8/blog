@@ -1,6 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { BlogHead } from "@/components/blog/blog-head";
+import { BlogHeader } from "@/components/blog/blog-header";
 import { PostGrid } from "@/components/blog/post-grid";
 import StarryBackground from "@/components/layout/starry";
 import { FooterSection } from "@/components/layout/sections/footer";
@@ -42,6 +43,7 @@ export default async function AuthorPage({ params }: Props) {
     <div className="min-h-screen relative">
       <StarryBackground />
       <div className="container mx-auto px-4 py-12">
+        <BlogHeader />
         <BlogHead
           title={`Author: ${author.name}`}
           subtitle={`${posts.length} ${

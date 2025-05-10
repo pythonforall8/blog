@@ -1,7 +1,13 @@
 {
   "excerpt": "This is a comprehensive test post to validate all MDX blog features.",
   "coverImage": "https://images.pexels.com/photos/4974915/pexels-photo-4974915.jpeg",
-  "author": "Samyak Jain",
+  "author": {
+    "slug": "samyak-jain",
+    "name": "Samyak Jain",
+    "title": "Technical Head",
+    "bio": "Full-stack developer and Python enthusiast focused on creating intuitive educational resources and tools.",
+    "avatar": "/samyak.jpg"
+  },
   "slug": "ultimate-test-post",
   "featured": true,
   "date": "2025-05-10T20:56:00.000Z",

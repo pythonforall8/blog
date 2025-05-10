@@ -2,8 +2,13 @@
 User-agent: *
 Allow: /
 
+# *
+User-agent: *
+Disallow: /admin
+Disallow: /private-page
+
 # Host
-Host: https://pythonforall.com
+Host: https://blog.pythonforall.com
 
 # Sitemaps
-Sitemap: https://pythonforall.com/sitemap.xml
+Sitemap: https://blog.pythonforall.com/sitemap.xml

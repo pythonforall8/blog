@@ -2,19 +2,14 @@
   "slug": "python-web-frameworks",
   "title": "Comparing Python Web Frameworks",
   "excerpt": "An in-depth look at Django, Flask, and FastAPI for web development",
-  "date": "2023-11-02",
+  "date": "2025-05-02",
   "coverImage": "https://images.pexels.com/photos/614117/pexels-photo-614117.jpeg",
   "author": {
-    "slug": "john-doe",
-    "name": "John Doe",
-    "title": "Senior Python Developer",
-    "bio": "Python enthusiast and software developer with 10 years of experience",
-    "avatar": "/samyak.jpg",
-    "social": {
-      "twitter": "https://twitter.com/johndoe",
-      "github": "https://github.com/johndoe",
-      "linkedin": "https://linkedin.com/in/johndoe"
-    }
+    "slug": "samyak-jain",
+    "name": "Samyak Jain",
+    "title": "Technical Head",
+    "bio": "Full-stack developer and Python enthusiast focused on creating intuitive educational resources and tools.",
+    "avatar": "/samyak.jpg"
   },
   "categories": [
     {

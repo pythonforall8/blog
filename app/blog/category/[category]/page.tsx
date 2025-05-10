@@ -1,6 +1,6 @@
 import React from "react";
 import { notFound } from "next/navigation";
-import { BlogHeader } from "@/components/blog/blog-header";
+import { BlogHead } from "@/components/blog/blog-head";
 import { PostGrid } from "@/components/blog/post-grid";
 import { CategoryFilter } from "@/components/blog/category-filter";
 import { BlogSearch } from "@/components/blog/blog-search";
@@ -43,7 +43,7 @@ export default async function CategoryPage({ params }: Props) {
     <div className="min-h-screen relative">
       <StarryBackground />
       <div className="container mx-auto px-4 py-12">
-        <BlogHeader
+        <BlogHead
           title={categoryInfo.name}
           subtitle={
             categoryInfo.description ||
