@@ -5,7 +5,12 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Author } from "@/types/blog";
-import { GithubIcon, LinkedInIcon, XIcon } from "@/components/icons";
+import {
+  GithubIcon,
+  LinkedInIcon,
+  XIcon,
+  InstagramIcon,
+} from "@/components/icons";
 
 interface AuthorProfileProps {
   author: Author;
@@ -67,6 +72,16 @@ export function AuthorProfile({ author }: AuthorProfileProps) {
                       className="text-foreground hover:text-primary transition-colors"
                     >
                       <LinkedInIcon />
+                    </a>
+                  )}
+                  {author.social.instagram && (
+                    <a
+                      href={author.social.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-foreground hover:text-primary transition-colors"
+                    >
+                      <InstagramIcon />
                     </a>
                   )}
                 </div>

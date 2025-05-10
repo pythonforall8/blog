@@ -8,6 +8,7 @@ export interface Author {
     twitter?: string;
     github?: string;
     linkedin?: string;
+    instagram?: string;
   };
 }
 
