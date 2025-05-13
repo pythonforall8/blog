@@ -76,7 +76,7 @@ export function SearchDialog({ children }: SearchDialogProps) {
         router.push(`/blog/search?q=${encodeURIComponent(trimmedQuery)}`);
       }
     },
-    [query, router, recentSearches, setIsSearchOpen]
+    [query, router, recentSearches, setIsSearchOpen, saveSearch]
   );
 
   // Handle direct article navigation
@@ -86,7 +86,7 @@ export function SearchDialog({ children }: SearchDialogProps) {
       setIsSearchOpen(false);
       router.push(`/blog/${slug}`);
     },
-    [router, setIsSearchOpen]
+    [router, setIsSearchOpen, saveSearch]
   );
 
   // Search for results as user types

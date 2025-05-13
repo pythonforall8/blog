@@ -140,7 +140,7 @@ export function BlogSearch({ initialQuery = "" }: BlogSearchProps) {
         router.push(`/blog/search?q=${encodeURIComponent(trimmedQuery)}`);
       }
     },
-    [query, router, recentSearches]
+    [query, router, recentSearches, setIsOpen, saveSearch]
   );
 
   const handleFormSubmit = useCallback(
@@ -257,7 +257,7 @@ export function BlogSearch({ initialQuery = "" }: BlogSearchProps) {
                         >
                           <div className="flex items-center text-primary">
                             <Search className="mr-2 h-4 w-4" />
-                            <span>Search for "{query}"</span>
+                            <span>Search for &quot;{query}&quot;</span>
                           </div>
                         </CommandItem>
                       </CommandGroup>

@@ -11,6 +11,7 @@ import { useTheme } from "next-themes";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { CheckIcon, CopyIcon } from "lucide-react";
+import Image from "next/image";
 
 interface ArticleContentProps {
   content: {
@@ -186,11 +187,16 @@ export function ArticleContent({ content }: ArticleContentProps) {
                 },
                 img: ({ src, alt }) => (
                   <div className="my-8">
-                    <img
-                      src={src || ""}
-                      alt={alt || ""}
-                      className="rounded-lg max-w-full h-auto mx-auto shadow-md"
-                    />
+                    <div className="relative rounded-lg overflow-hidden w-full max-w-full h-auto mx-auto shadow-md">
+                      <Image
+                        src={src || ""}
+                        alt={alt || ""}
+                        width={800}
+                        height={450}
+                        className="rounded-lg max-w-full h-auto mx-auto"
+                        style={{ objectFit: "contain" }}
+                      />
+                    </div>
                     {alt && (
                       <p className="text-center text-sm text-gray-500 mt-2">
                         {alt}
