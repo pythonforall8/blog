@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Github, Menu } from "lucide-react";
+import { Github, Menu, Search, Keyboard } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -22,6 +22,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { ModeToggle } from "@/components/layout/mode-toggle";
 import { motion, AnimatePresence } from "framer-motion";
+import { useKeyboardShortcuts } from "@/components/providers/keyboard-shortcut-provider";
+import { SearchDialog } from "@/components/blog/search-dialog";
 
 interface RouteProps {
   href: string;
@@ -45,6 +47,7 @@ export const Navbar = () => {
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
   const [isLeaving, setIsLeaving] = useState(false);
   const [leaveTimeout, setLeaveTimeout] = useState<NodeJS.Timeout | null>(null);
+  const { openSearch } = useKeyboardShortcuts();
 
   const navbarVariants = {
     hidden: { opacity: 0, y: -100 },
@@ -93,6 +96,17 @@ export const Navbar = () => {
 
       {/* Mobile */}
       <div className="flex items-center lg:hidden">
+        <SearchDialog>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="mr-2"
+            aria-label="Search"
+          >
+            <Search className="h-5 w-5" />
+          </Button>
+        </SearchDialog>
+
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Menu
@@ -180,8 +194,23 @@ export const Navbar = () => {
         </NavigationMenu>
       </div>
 
-      {/* ModeToggle only in desktop */}
-      <div className="hidden lg:flex">
+      {/* Search and ModeToggle in desktop */}
+      <div className="hidden lg:flex items-center gap-2">
+        <SearchDialog>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative"
+            aria-label="Search (Ctrl+K)"
+            onClick={openSearch}
+          >
+            <Search className="h-5 w-5" />
+            <span className="sr-only">Search</span>
+            <kbd className="absolute -bottom-6 right-0 pointer-events-none hidden md:flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 text-muted-foreground">
+              <span className="text-xs">⌘</span>K
+            </kbd>
+          </Button>
+        </SearchDialog>
         <ModeToggle />
       </div>
     </motion.header>

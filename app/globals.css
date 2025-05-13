@@ -356,3 +356,26 @@ html {
   cursor: url('/link_dark.png'), pointer !important;
 }
 
+/* Added styles for search components */
+.cmdk-root,
+.cmdk-list,
+.cmdk-item,
+.cmdk-group,
+.cmdk-input-wrapper {
+  background-color: hsl(var(--background));
+}
+
+.cmdk-item[data-selected="true"] {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+[cmdk-dialog-background] {
+  background-color: hsl(var(--background));
+}
+
+/* Ensure dialog components have proper background */
+[role="dialog"] [role="document"] {
+  background-color: hsl(var(--background));
+}
+

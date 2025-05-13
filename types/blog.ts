@@ -26,7 +26,7 @@ export interface Post {
   coverImage: string;
   author: Author;
   categories: Category[];
-  content: {
+  content: string | {
     type: string;
     value: string | string[];
     language?: string;

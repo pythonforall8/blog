@@ -29,6 +29,10 @@ export function PostGrid({ posts }: PostGridProps) {
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  // Default image for posts without cover image
+  const defaultCoverImage =
+    "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg";
+
   return (
     <motion.div
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -38,14 +42,14 @@ export function PostGrid({ posts }: PostGridProps) {
     >
       {posts.map((post) => (
         <motion.div key={post.slug} variants={item}>
-          <Card className="h-full overflow-hidden border hover:border-primary/50 transition-all duration-300 group blog-card">
+          <Card className="h-full overflow-hidden border hover:border-primary transition-all duration-300 group blog-card">
             <Link
               href={`/blog/${post.slug}`}
               className="block h-full blog-link"
             >
               <div className="relative w-full h-48">
                 <Image
-                  src={post.coverImage}
+                  src={post.coverImage || defaultCoverImage}
                   alt={post.title}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
@@ -72,7 +76,9 @@ export function PostGrid({ posts }: PostGridProps) {
               </div>
               <CardContent className="p-4 flex flex-col h-[calc(100%-12rem)]">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
-                  <span>{format(new Date(post.date), "MMM dd, yyyy")}</span>
+                  <span>
+                    {format(new Date(post.date || new Date()), "MMM dd, yyyy")}
+                  </span>
                   <span>•</span>
                   <span>{post.readingTime || "5"} min read</span>
                 </div>
@@ -80,31 +86,30 @@ export function PostGrid({ posts }: PostGridProps) {
                   {post.title}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4 line-clamp-3 flex-grow">
-                  {post.excerpt}
+                  {post.excerpt || "No excerpt available"}
                 </p>
-                <div
-                  className="flex items-center gap-2 mt-auto"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  {post.author && post.author.avatar && (
-                    <div className="relative w-6 h-6 rounded-full overflow-hidden">
-                      <Image
-                        src={post.author.avatar}
-                        alt={post.author.name || "Author"}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  {post.author && post.author.slug && (
-                    <Link
-                      href={`/blog/author/${post.author.slug}`}
-                      className="text-xs font-medium hover:text-primary transition-colors"
-                    >
-                      {post.author.name}
-                    </Link>
-                  )}
-                </div>
+                {post.author && (
+                  <div
+                    className="flex items-center gap-2 mt-auto"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {post.author.avatar && (
+                      <div className="relative w-6 h-6 rounded-full overflow-hidden">
+                        <Image
+                          src={post.author.avatar}
+                          alt={post.author.name || "Author"}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    )}
+                    {post.author.name && (
+                      <span className="text-xs font-medium">
+                        {post.author.name}
+                      </span>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Link>
           </Card>

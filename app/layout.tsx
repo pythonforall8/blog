@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/navbar";
 import { ThemeProvider } from "@/components/layout/theme-provider";
+import { KeyboardShortcutProvider } from "@/components/providers/keyboard-shortcut-provider";
+import { GlobalSearch } from "@/components/layout/global-search";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
@@ -54,9 +56,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="flex-grow">{children}</main>
-          <Toaster position="top-right" />
+          <KeyboardShortcutProvider>
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <GlobalSearch />
+            <Toaster position="top-right" />
+          </KeyboardShortcutProvider>
         </ThemeProvider>
       </body>
     </html>

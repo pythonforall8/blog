@@ -8,8 +8,8 @@ import { CategoryFilter } from "@/components/blog/category-filter";
 import { BlogSearch } from "@/components/blog/blog-search";
 import StarryBackground from "@/components/layout/starry";
 import { FooterSection } from "@/components/layout/sections/footer";
-import { searchPosts } from "@/lib/blog";
-import { Post } from "@/types/blog"; // or wherever Post is defined
+import { Post } from "@/types/blog";
+import { BlogHeader } from "@/components/blog/blog-header";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
@@ -21,8 +21,43 @@ export default function SearchPage() {
     const fetchResults = async () => {
       setLoading(true);
       try {
-        const results = await searchPosts(query);
-        setPosts(results);
+        // Use the API directly
+        const apiResponse = await fetch(
+          `/api/search?q=${encodeURIComponent(query)}`
+        );
+        const data = await apiResponse.json();
+
+        if (data.results && Array.isArray(data.results)) {
+          // Convert API results to Post objects we can display
+          const displayPosts = data.results.map((item: any) => ({
+            slug: item.slug,
+            title: item.title,
+            excerpt: item.excerpt || "No excerpt available",
+            date: item.date || new Date().toISOString(),
+            coverImage:
+              item.coverImage ||
+              "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg",
+            author: {
+              name: item.author?.name || "Unknown Author",
+              slug: item.author?.slug || "unknown-author",
+              title: item.author?.title || "",
+              bio: item.author?.bio || "",
+              avatar: item.author?.avatar || "",
+            },
+            categories: (item.categories || []).map((cat: string) => ({
+              name: cat,
+              slug: cat.toLowerCase().replace(/\s+/g, "-"),
+              description: `Posts about ${cat}`,
+            })),
+            content: [],
+            readingTime: item.readingTime || 5,
+          }));
+
+          setPosts(displayPosts);
+        } else {
+          console.warn("Invalid API response format:", data);
+          setPosts([]);
+        }
       } catch (error) {
         console.error("Error searching posts:", error);
         setPosts([]);
@@ -37,6 +72,7 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen relative">
       <StarryBackground />
+      <BlogHeader />
       <div className="container mx-auto px-4 py-12">
         <BlogHead
           title={`Search Results: ${query}`}
