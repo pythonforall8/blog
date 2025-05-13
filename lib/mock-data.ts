@@ -170,7 +170,7 @@ export function mock_searchPosts(query: string): Post[] {
     return (
       post.title.toLowerCase().includes(normalizedQuery) ||
       post.excerpt.toLowerCase().includes(normalizedQuery) ||
-      post.content.some(block => {
+      (Array.isArray(post.content) && post.content.some(block => {
         // If block.value is a string, check if it contains the query
         if (typeof block.value === 'string') {
           return block.value.toLowerCase().includes(normalizedQuery);
@@ -180,7 +180,9 @@ export function mock_searchPosts(query: string): Post[] {
           return block.value.some(val => val.toLowerCase().includes(normalizedQuery));
         }
         return false;
-      }) ||
+      })) ||
+      // If post.content is a string, check if it contains the query
+      (typeof post.content === 'string' && post.content.toLowerCase().includes(normalizedQuery)) ||
       (post.categories ?? []).some(cat =>
         cat.name.toLowerCase().includes(normalizedQuery)
       )
