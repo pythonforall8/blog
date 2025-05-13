@@ -72,8 +72,10 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen relative">
       <StarryBackground />
-      <BlogHeader />
       <div className="container mx-auto px-4 py-12">
+        <div className="flex justify-center mb-8">
+          <BlogHeader />
+        </div>
         <BlogHead
           title={`Search Results: ${query}`}
           subtitle={
