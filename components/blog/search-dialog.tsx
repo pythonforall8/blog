@@ -186,7 +186,7 @@ export function SearchDialog({ children }: SearchDialogProps) {
                   className="text-primary cmdk-item"
                 >
                   <div className="flex items-center">
-                    <span>View all results for "{query}"</span>
+                    <span>View all results for &quot;{query}&quot;</span>
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </div>
                 </CommandItem>
@@ -195,7 +195,7 @@ export function SearchDialog({ children }: SearchDialogProps) {
 
             {!loading && query.trim().length > 1 && results.length === 0 && (
               <CommandEmpty>
-                <p>No results found for "{query}"</p>
+                <p>No results found for &quot;{query}&quot;</p>
                 <p className="text-sm text-muted-foreground mt-1">
                   Try searching with different keywords or browse our
                   categories.
